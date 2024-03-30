@@ -63,7 +63,13 @@ public class WhitelistPlugin extends JavaPlugin {
                         UnwhitelistMinecraftAccount event = null;
                         event = UnwhitelistMinecraftAccount.parseFrom(msg.getData());
 
-                        OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(event.getUuid()));
+                        // UUID.fromString(event.getUuid())
+                        UUID uuid = new UUID(
+                                new BigInteger(event.getUuid().substring(0, 16), 16).longValue(),
+                                new BigInteger(event.getUuid().substring(16), 16).longValue()
+                        );
+
+                        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
                         player.setWhitelisted(false);
 
                         MinecraftAccountWhitelistStateUpdated res = MinecraftAccountWhitelistStateUpdated.newBuilder()
