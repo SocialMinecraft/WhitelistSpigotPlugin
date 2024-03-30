@@ -9,11 +9,11 @@ import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
 import io.nats.client.Nats;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
@@ -42,7 +42,12 @@ public class WhitelistPlugin extends JavaPlugin {
                         WhitelistMinecraftAccount event = null;
                         event = WhitelistMinecraftAccount.parseFrom(msg.getData());
 
-                        OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(event.getUuid()));
+                        // UUID.fromString(event.getUuid())
+                        UUID uuid = new UUID(
+                                new BigInteger(event.getUuid().substring(0, 16), 16).longValue(),
+                                new BigInteger(event.getUuid().substring(16), 16).longValue()
+                        );
+                        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
                         player.setWhitelisted(true);
 
                         MinecraftAccountWhitelistStateUpdated res = MinecraftAccountWhitelistStateUpdated.newBuilder()
