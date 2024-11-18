@@ -43,9 +43,10 @@ public class WhitelistPlugin extends JavaPlugin {
                         event = WhitelistMinecraftAccount.parseFrom(msg.getData());
 
                         // UUID.fromString(event.getUuid())
+                        String uuidStr = event.getUuid().replace("-", "");
                         UUID uuid = new UUID(
-                                new BigInteger(event.getUuid().substring(0, 16), 16).longValue(),
-                                new BigInteger(event.getUuid().substring(16), 16).longValue()
+                                new BigInteger(uuidStr.substring(0, 16), 16).longValue(),
+                                new BigInteger(uuidStr.substring(16), 16).longValue()
                         );
                         OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
                         player.setWhitelisted(true);
@@ -64,9 +65,10 @@ public class WhitelistPlugin extends JavaPlugin {
                         event = UnwhitelistMinecraftAccount.parseFrom(msg.getData());
 
                         // UUID.fromString(event.getUuid())
+                        String uuidStr = event.getUuid().replace("-", "");
                         UUID uuid = new UUID(
-                                new BigInteger(event.getUuid().substring(0, 16), 16).longValue(),
-                                new BigInteger(event.getUuid().substring(16), 16).longValue()
+                                new BigInteger(uuidStr.substring(0, 16), 16).longValue(),
+                                new BigInteger(uuidStr.substring(16), 16).longValue()
                         );
 
                         OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
